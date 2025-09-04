@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Get temporary token for octodemobot application
         id: temp_token
-        uses: peter-murray/workflow-application-token-action@v3
+        uses: peter-murray/workflow-application-token-action@v4
         with:
           application_id: ${{ vars.OD_OCTODEMO_DEMO_INSTANCE_APP_ID }}
           application_private_key: ${{ secrets.OD_OCTODEMO_DEMO_INSTANCE_APP_KEY }}
