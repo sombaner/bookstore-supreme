@@ -1,0 +1,36 @@
+name: Deploy Environment -- Azure
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_container_image:
+        description: The name of the container image.
+        required: true
+
+      deployment_github_ref:
+        description: Repository reference for the deployment to be attached to.
+        required: true
+
+      app_type:
+        description: Azure application type.
+        required: true
+
+      app_name:
+        description: The name of the application.
+        required: true
+
+      environment_name:
+        description: The name of the environment to be deployed
+        required: true
+
+
+jobs:
+  deploy:
+    name: Azure deployment disabled
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deployment disabled
+        run: echo "Azure deployment was disabled in demo creation"
+        shell: bash
+

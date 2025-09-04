@@ -1,0 +1,60 @@
+name: Label deployment trigger
+
+#
+# A workflow that will respond to particular labels being added to a Pull Request to create an
+# integration environment.
+#
+
+on:
+  pull_request:
+    types:
+      - labeled
+
+# TODO may need to gate deployments on PRs from dependabot due to the head reference being illegal as it contains '/'s
+
+jobs:
+  deployment:
+    name: Create deployment
+    runs-on: ubuntu-24.04
+    if: |
+      github.event.label.name == 'deploy to test' ||
+      github.event.label.name == 'deploy to staging' ||
+      github.event.label.name == 'deploy to qa'
+
+    steps:
+      - name: Checkout Sources
+        uses: actions/checkout@v4
+
+      - name: Acknowledge Request Label from Pull Request
+        id: acknowledge_label
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const scriptPath = require('path').resolve('./.github/workflows/scripts/deploymentLabel.js');
+            const DeploymentLabel = require(scriptPath);
+
+            const deploymentLabel = new DeploymentLabel(context, core, github);
+            await deploymentLabel.acknowledgeDeployLabel();
+
+      - name: Get temporary token for creating deployment
+        id: temp_token
+        uses: peter-murray/workflow-application-token-action@v3
+        with:
+          application_id: ${{ vars.OD_OCTODEMO_DEMO_INSTANCE_APP_ID }}
+          application_private_key: ${{ secrets.OD_OCTODEMO_DEMO_INSTANCE_APP_KEY }}
+          revoke_token: true
+
+
+      - name: Deployment disabled
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const commentBody = `Deployment was not triggered since Azure deployment is disabled for this demo.`;
+
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.payload.number,
+              body: commentBody,
+            });
+

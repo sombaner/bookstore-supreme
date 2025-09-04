@@ -1,0 +1,31 @@
+name: Dependency Review
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  statuses: write
+
+jobs:
+  dependency_review:
+    name: Dependency review
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Dependency validation
+        id: dependency_validation
+        uses: actions/dependency-review-action@v4
+        continue-on-error: true
+
+      - name: Publish failure validation status
+        if: steps.dependency_validation.outcome == 'failure'
+        uses: octodemo-resources/github-commit-status@v1
+        with:
+          state: failure
+          context: Dependency Vulnerabilities
+          description: ${{ github.server.url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

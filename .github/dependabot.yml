@@ -1,0 +1,26 @@
+version: 2
+updates:
+  # Set update schedule for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      # Check for updates to GitHub Actions every week
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*/bookstore-common-workflows"
+
+  # Set update schedule for Maven - disabled so that JUnit vulnerability takes precidence in demos
+  # - package-ecosystem: "maven"
+  #   directory: "/"
+  #   schedule:
+  #     # Check for updates to GitHub Actions every week
+  #     interval: "weekly"
+
+  # Set update schedule for Terraform
+  - package-ecosystem: "terraform"
+    directories: 
+      - "/.octodemo/demo"
+      - "/.octodemo/static-resources"
+    schedule:
+      # Check for updates to Terraform every month
+      interval: "monthly"

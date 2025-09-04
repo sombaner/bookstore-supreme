@@ -1,0 +1,22 @@
+name: Destroy Environment -- Azure
+
+#
+# Using the deploymentManager.js script we put associated deployments into a "failed" state
+# to be able to trigger a clean up process of the environment. Actions does not support
+# the "inactive" state as a trigger by design.
+#
+
+on:
+  deployment_status
+
+jobs:
+
+  destroy:
+    name: Azure deployment disabled
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deployment disabled
+        run: echo "Azure deployment was disabled in demo creation"
+        shell: bash
+
