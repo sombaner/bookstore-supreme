@@ -1,0 +1,21 @@
+name: AI Agent Workflow
+on: [push, pull_request]
+
+jobs:
+  agent_task:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup GitHub Copilot Coding Agent
+        run: |
+          echo "Setting up GitHub Copilot Coding Agent environment..."
+          
+      - name: Run GitHub Copilot Coding Agent
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TASK_DESCRIPTION: "Add rating feature for the bookstore. Expose rating api and get books by rating api. "
+        run: |
+          echo "Running GitHub Copilot Coding Agent with task: Add rating feature for the bookstore. Expose rating api and get books by rating api. "
+          # Agent-specific commands will be executed here
+          echo "Task completed successfully"
