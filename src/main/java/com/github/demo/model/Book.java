@@ -11,6 +11,8 @@ public class Book {
 
     private String cover;
 
+    private double rating;
+
     public Book() {
 
     }
@@ -24,6 +26,14 @@ public class Book {
         this.author = author;
         this.title = title;
         this.cover = cover;
+        this.rating = 0.0;
+    }
+
+    public Book(String author, String title, String cover, double rating) {
+        this.author = author;
+        this.title = title;
+        this.cover = cover;
+        this.rating = rating;
     }
 
     public String getTitle() {
@@ -52,5 +62,13 @@ public class Book {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }

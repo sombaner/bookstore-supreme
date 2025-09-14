@@ -30,6 +30,19 @@
       border: 0 none;
       box-shadow: none;
     }
+
+    .star-rating {
+      color: #FFD700;
+      font-size: 16px;
+    }
+
+    .star-rating .empty-star {
+      color: #ccc;
+    }
+
+    .rating-filter {
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -62,6 +75,21 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12 col-md-10 col-md-offset-1">
+      <!-- Rating Filter -->
+      <div class="rating-filter">
+        <form method="get" class="form-inline">
+          <div class="form-group">
+            <label for="rating">Filter by minimum rating:</label>
+            <select name="rating" id="rating" class="form-control" onchange="this.form.submit()">
+              <option value="">All Books</option>
+              <option value="4.0" th:selected="${filterType == 'rating' and filterValue == '4.0'}">4+ Stars</option>
+              <option value="3.5" th:selected="${filterType == 'rating' and filterValue == '3.5'}">3.5+ Stars</option>
+              <option value="3.0" th:selected="${filterType == 'rating' and filterValue == '3.0'}">3+ Stars</option>
+            </select>
+          </div>
+        </form>
+      </div>
+
       <table class="table table-hover">
         <thead>
         <tr>
@@ -79,6 +107,12 @@
                 <div class="media-body" th:inline="text">
                   <h4 class="media-heading"><a href="#">[[${book.title}]]</a></h4>
                   <h5 class="media-heading"> by <a href="#">[[${book.author}]]</a></h5>
+                  <div class="star-rating">
+                    <span th:each="i : ${#numbers.sequence(1, 5)}">
+                      <span th:if="${i <= book.rating}">★</span><span th:if="${i > book.rating}" class="empty-star">★</span>
+                    </span>
+                    <span th:text="'(' + ${#numbers.formatDecimal(book.rating, 1, 1)} + ')'"></span>
+                  </div>
                   <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
                 </div>
               </div>

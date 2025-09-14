@@ -65,7 +65,22 @@ public class BookServlet extends HttpServlet {
         resp.setContentType("text/html; charset=UTF-8");
 
         try {
-            List<Book> books = bookService.getBooks();
+            List<Book> books;
+            String ratingParam = req.getParameter("rating");
+            
+            if (ratingParam != null && !ratingParam.trim().isEmpty()) {
+                try {
+                    double minRating = Double.parseDouble(ratingParam);
+                    books = bookService.getBooksByRating(minRating);
+                    ctx.setVariable("filterType", "rating");
+                    ctx.setVariable("filterValue", ratingParam);
+                } catch (NumberFormatException e) {
+                    books = bookService.getBooks();
+                }
+            } else {
+                books = bookService.getBooks();
+            }
+            
             ctx.setVariable("books", books);
             engine.process("books", ctx, resp.getWriter());
         } catch (BookServiceException e) {

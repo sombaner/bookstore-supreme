@@ -32,6 +32,18 @@ public class BookTest {
     }
 
     @Test
+    public void testGetSetRating() {
+        book.setRating(4.5);
+        Assert.assertEquals(4.5, book.getRating(), 0.01);
+    }
+
+    @Test
+    public void testConstructorWithRating() {
+        Book bookWithRating = new Book("Kurt Vonnegut", "Slapstick", "slapstick.jpg", 4.2);
+        Assert.assertEquals(4.2, bookWithRating.getRating(), 0.01);
+    }
+
+    @Test
     public void testGetDetails() {
         String details = book.getDetails();
         Assert.assertNotNull(details);

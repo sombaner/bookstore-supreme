@@ -27,4 +27,8 @@ public class BookService {
     public List<Book> searchBooks(String name) throws BookServiceException {
         return this.booksDatabase.getBooksByTitle(name);
     }
+
+    public List<Book> getBooksByRating(double minRating) throws BookServiceException {
+        return this.booksDatabase.getBooksByRating(minRating);
+    }
 }

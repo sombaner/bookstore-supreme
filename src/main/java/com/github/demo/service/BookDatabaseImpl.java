@@ -92,7 +92,8 @@ public class BookDatabaseImpl implements BookDatabase {
                 Book book = new Book(
                     rs.getString("author"),
                     rs.getString("title"),
-                    rs.getString("image")
+                    rs.getString("image"),
+                    rs.getDouble("rating")
                 );
                 books.add(book);
             }
@@ -123,12 +124,55 @@ public class BookDatabaseImpl implements BookDatabase {
                 Book book = new Book(
                     results.getString("author"),
                     results.getString("title"),
-                    results.getString("image")
+                    results.getString("image"),
+                    results.getDouble("rating")
                 );
                 books.add(book);
             }
         } catch (SQLException e) {
             logger.error("Failed while searching for {}'", name);
+            throw new BookServiceException(e);
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se) {
+                // Do nothing
+            } finally {
+                stmt = null;
+            }
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> getBooksByRating(double minRating) throws BookServiceException {
+        List<Book> books = new ArrayList<Book>();
+
+        if (!isValid()) {
+            throw new BookServiceException("Database connection is not valid, check logs for failure details.");
+        }
+
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = connection.prepareStatement("SELECT * FROM books WHERE rating >= ? ORDER BY rating DESC");
+            stmt.setDouble(1, minRating);
+
+            ResultSet results = stmt.executeQuery();
+
+            while (results.next()) {
+                Book book = new Book(
+                    results.getString("author"),
+                    results.getString("title"),
+                    results.getString("image"),
+                    results.getDouble("rating")
+                );
+                books.add(book);
+            }
+        } catch (SQLException e) {
+            logger.error("Failed while searching for books with rating >= {}", minRating);
             throw new BookServiceException(e);
         } finally {
             try {
@@ -169,6 +213,7 @@ public class BookDatabaseImpl implements BookDatabase {
                     ps.setString(1, book.getTitle());
                     ps.setString(2, book.getAuthor());
                     ps.setString(3, book.getCover());
+                    ps.setDouble(4, book.getRating());
                     ps.execute();
                 }
                 logger.info("Database populated.");
@@ -203,7 +248,7 @@ public class BookDatabaseImpl implements BookDatabase {
                 + "title TEXT NOT NULL, "
                 + "author TEXT, "
                 + "image TEXT, "
-                + "rating, INTEGER "
+                + "rating REAL "
                 + ")"
             );
             // Populate the database with some sample data
