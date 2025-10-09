@@ -25,6 +25,34 @@ public class BookServiceTest {
         assertEquals("list length should be 6", 6, books.size());
     }
 
+    @Test
+    public void testGetBooksByRating() throws BookServiceException {
+        List<Book> books = bookService.getBooksByRating(4.0);
+        assertEquals("should return books with rating >= 4.0", 5, books.size());
+        
+        // Verify all returned books have rating >= 4.0
+        for (Book book : books) {
+            assertEquals("book rating should be >= 4.0", true, book.getRating() >= 4.0);
+        }
+    }
+
+    @Test
+    public void testGetBooksByRatingHigherThreshold() throws BookServiceException {
+        List<Book> books = bookService.getBooksByRating(4.3);
+        assertEquals("should return books with rating >= 4.3", 2, books.size());
+        
+        // Verify all returned books have rating >= 4.3
+        for (Book book : books) {
+            assertEquals("book rating should be >= 4.3", true, book.getRating() >= 4.3);
+        }
+    }
+
+    @Test
+    public void testGetBooksByRatingAllBooks() throws BookServiceException {
+        List<Book> books = bookService.getBooksByRating(3.0);
+        assertEquals("should return all books with rating >= 3.0", 6, books.size());
+    }
+
     @Before
     public void setUp() throws Exception{
         bookService = new BookService();
