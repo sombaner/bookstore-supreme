@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for BookService
@@ -32,7 +33,7 @@ public class BookServiceTest {
         
         // Verify all returned books have rating >= 4.0
         for (Book book : books) {
-            assertEquals("book rating should be >= 4.0", true, book.getRating() >= 4.0);
+            assertTrue("book rating should be >= 4.0", book.getRating() >= 4.0);
         }
     }
 
@@ -43,7 +44,7 @@ public class BookServiceTest {
         
         // Verify all returned books have rating >= 4.3
         for (Book book : books) {
-            assertEquals("book rating should be >= 4.3", true, book.getRating() >= 4.3);
+            assertTrue("book rating should be >= 4.3", book.getRating() >= 4.3);
         }
     }
 
