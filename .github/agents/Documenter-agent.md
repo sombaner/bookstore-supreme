@@ -1,6 +1,10 @@
 ---
 name: Documenter Agent
 description: This agent helps in defining all the documentation and also can trigger planning agent to plan the docuementation
+tools:
+  - type: github_agent
+    agent: Planner-agent
+    description: Planning agent that can help break down documentation tasks and coordinate implementation sequences
 ---
 
 # My Agent
