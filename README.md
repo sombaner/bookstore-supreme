@@ -18,10 +18,26 @@ The Workflow files in this repository provide the following features:
 * Azure review environments are destroyed once PR is closed (using Ansible triggered from deployment transitions)
 * Any commit to the default branch `main` will result in the `prod` Azure web application being updated to the latest code (Continuous Delivery)
 
-For a step-by-step guide see the `/docs` folder:
- - [GHAS Demo](docs/ghas-walkthrough.md)
- - [Platform Demo](docs/platform-walkthrough.md)
- - [Azure Demo](docs/tvp.md)
+## 📚 Documentation
+
+Comprehensive documentation is available in the `/docs` folder:
+
+### Quick Start Guides
+- **[Developer Setup Guide](docs/development/setup-guide.md)** - Get started with local development
+- **[Deployment Guide](docs/operations/deployment-guide.md)** - Deploy to local, Docker, or Azure
+- **[API Reference](docs/api/api-reference.md)** - Complete API documentation
+
+### Complete Documentation
+- **[Documentation Index](docs/README.md)** - Complete documentation overview
+- **[System Architecture](docs/architecture/system-overview.md)** - Architecture and components
+- **[Database Schema](docs/database/schema.md)** - Database design and specifications
+- **[Coding Guidelines](docs/code-standards/coding-guidelines.md)** - Code standards and best practices
+- **[Security Overview](docs/security/security-overview.md)** - Security architecture and practices
+
+### Demo Walkthroughs
+- [GHAS Demo](docs/ghas-walkthrough.md) - GitHub Advanced Security features
+- [Platform Demo](docs/platform-walkthrough.md) - Platform capabilities
+- [Azure Demo](docs/tvp.md) - Azure deployment
 
 ## Running the Web Application locally
 
